@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:lc101@localhost:8
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
-# creating a persistent class for the database
+# creating a class for the blog
 class Blog(db.Model):
 
     # specify the data fields that should go into columns
@@ -16,10 +16,25 @@ class Blog(db.Model):
     # these are both set as Text instead of String so there is not a character limit
     title = db.Column(db.Text)  # blog title
     post = db.Column(db.Text)   # blog post text
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, title, post):
+    def __init__(self, title, post, owner):
         self.title = title
         self.post = post 
+        self.owner = owner
+
+# creating a class for the users
+class User(db.Model):
+
+    # specify the data fields that should go into columns
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(120))
+    blogs = db.relationship('Blog', backref='owner')
+
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password
 
 # DISPLAYS ALL BLOG POSTS
 #@app.route('/blog')
