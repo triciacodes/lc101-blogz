@@ -86,10 +86,6 @@ def add_entry():
 
     if request.method == 'POST':
 
-        # THIS CREATES EMPTY STRINGS FOR THE ERROR MESSAGES
-        title_error = ""
-        blog_entry_error = ""
-
         # assigning variable to blog title from entry form
         post_title = request.form['blog_title']
         # assigning variable to blog post from entry form
@@ -109,15 +105,14 @@ def add_entry():
             return redirect(post_link)
         else:
             if not empty_val(post_title) and not empty_val(post_entry):
-                title_error = "Please enter text for blog title"
-                blog_entry_error = "Please enter text for blog entry"
-                return render_template('new_post.html', blog_entry_error=blog_entry_error, title_error=title_error)
+                flash('Please enter a title and blog entry', 'error')
+                return render_template('new_post.html', post_title=post_title, post_entry=post_entry)
             elif not empty_val(post_title):
-                title_error = "Please enter text for blog title"
-                return render_template('new_post.html', title_error=title_error, post_entry=post_entry)
+                flash('Please enter a title', 'error')
+                return render_template('new_post.html', post_entry=post_entry)
             elif not empty_val(post_entry):
-                blog_entry_error = "Please enter text for blog entry"
-                return render_template('new_post.html', blog_entry_error=blog_entry_error, post_title=post_title)
+                flash('Please enter a blog entry', 'error')
+                return render_template('new_post.html', post_title=post_title)
 
     # DISPLAYS NEW BLOG ENTRY FORM
     else:
