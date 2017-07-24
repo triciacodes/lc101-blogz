@@ -131,6 +131,25 @@ def add_user():
     # DISPLAYS NEW BLOG ENTRY FORM
     else:
         return render_template('signup.html')
+
+
+@app.route('/login', methods=['POST', 'GET'])
+def login_user():
+    if request.method == 'POST':
+        # creates variables for information being passed in login form
+        username = request.form['username']
+        password = request.form['password']
+        # query matches username to existing username in the db
+        # this will net the first result, there should only be one result bc field is unique
+        # if there are no users with the same username, the result with be none
+        user = User.query.filter_by(username=username).first()
+        # "if user" checks to see if user exists
+        # "if user.password == password" checks to see if the pw provided matches pw in db
+        if user and user.password == password:
+            # TODO - remember that user has logged in
+            return redirect('newpost')
+
+    return render_template('login.html')
         
 
 # only runs when the main.py file run directly
