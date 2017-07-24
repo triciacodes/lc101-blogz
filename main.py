@@ -7,6 +7,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:lc101@localhost:8
 # this gives you a view into what is happening in terminal
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
+# this is required for session
+app.secret_key = 'df8f78dsa83mnk'
 
 # creating a class for the blog
 class Blog(db.Model):
