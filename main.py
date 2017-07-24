@@ -36,6 +36,15 @@ class User(db.Model):
         self.username = username
         self.password = password
 
+# this will run at the beginning of every request to see if the user is logged in
+@app.before_request
+def require_login():
+    # allowed routes are the function name, not the directory
+    allowed_routes = ['login_user', 'show_blog', 'add_user']
+    # if not in white list, and user not logged in, it will redirect to login page
+    if request.endpoint not in allowed_routes and 'username' not in session:
+        return redirect('/login')
+
 
 # DISPLAYS IND BLOG POSTS
 @app.route('/blog')
