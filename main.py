@@ -42,7 +42,7 @@ class User(db.Model):
 @app.before_request
 def require_login():
     # allowed routes are the function name, not the directory
-    allowed_routes = ['login_user', 'show_blog', 'add_user', 'index']
+    allowed_routes = ['login_user', 'show_blog', 'add_user', 'index', 'static']
     # if not in white list, and user not logged in, it will redirect to login page
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
@@ -196,18 +196,45 @@ def login_user():
         # creates variables for information being passed in login form
         username = request.form['username']
         password = request.form['password']
+
+        # - - - - - LOGIN VALIDATIONS
+
+        if not username and not password:
+            flash('Username and password cannot be blank', 'error')
+            return render_template('login.html')
+        if not username:
+            flash('Username cannot be blank', 'error')
+            return render_template('login.html')
+        if not password:
+            flash('Password cannot be blank', 'error')
+            return render_template('login.html')
+        
         # query matches username to existing username in the db
         # this will net the first result, there should only be one result bc field is unique
         # if there are no users with the same username, the result with be none
         user = User.query.filter_by(username=username).first()
+
+        # - - - - - MORE LOGIN VALIDATIONS
+
+        # checks username, renders error if not correct
+        if not user:
+            flash('Username does not exist', 'error')
+            return render_template('login.html')
+        # checks password, renders error if incorrect
+        if user.password != password:
+            flash('Password is incorrect', 'error')
+            return render_template('login.html')
+
+        # - - - - - LOGGIN IN USER
+
         # "if user" checks to see if user exists
         # "if user.password == password" checks to see if the pw provided matches pw in db
         if user and user.password == password:
+            # saves username to session
             session['username'] = username
             return redirect('newpost')
-        else:
-            # TODO - explain why login failed
-            return '<h2>Error</h2>'
+        
+        
 
     return render_template('login.html')
         
