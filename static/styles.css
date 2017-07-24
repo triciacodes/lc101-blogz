@@ -6,6 +6,7 @@ body {
     height: 100%;
     margin: 0% 20% 5% 20%;
     color: #6E7081;
+    line-height: 1.3rem;
 }
 
 .container {
@@ -49,6 +50,7 @@ h2 {
     padding-top: .5rem;
     padding-bottom: .5rem;
     font-weight: 300;
+    color: #73BCBA;
 }
 
 .byline {
@@ -92,6 +94,8 @@ input {
 
 textarea {
     width: 97%;
+    font-family: 'Work Sans', sans-serif;
+    border: 1px solid #6E7081;
 }
 
 /* submit button */
@@ -142,4 +146,8 @@ hr {
 
 hr:last-of-type, .success:last-of-type {
     display: none;
+}
+
+li {
+    padding-bottom: 0.7rem;
 }
