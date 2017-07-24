@@ -129,21 +129,41 @@ def add_user():
 
     if request.method == 'POST':
 
-        # THIS CREATES EMPTY STRINGS FOR THE ERROR MESSAGES
-
+        # - - - - - VARIABLES FOR DATA FROM SIGNUP FORM
         # assigning variable to username from signup form
         user_name = request.form['username']
         # assigning variable to user password from signup form
         user_password = request.form['password']
         # assigning variable to user password from signup form
         user_password_validate = request.form['password_validate']
+
+
+        # - - - - - USER SIGNUP VALIDATION
+
+        # if the username or password is blank, flash error
+        if not empty_val(user_name) or not empty_val(user_password) or not empty_val(user_password_validate):
+            flash('All fields must be filled in', 'error')
+            return render_template('signup.html')
+
+        # if the password is blank, flash error
+        if user_password != user_password_validate:
+            flash('Passwords must match', 'error')
+            return render_template('signup.html')
+
+        if len(user_password) < 3 and len(user_name) < 3:
+            flash('Username and password must be at least three characters', 'error')
+            return render_template('signup.html')
+
+        if len(user_password) < 3:
+            flash('Password must be at least three characters', 'error')
+            return render_template('signup.html')
+
+        if len(user_name) < 3:
+            flash('Username must be at least three characters', 'error')
+            return render_template('signup.html')
+
         
-
-        # TODO - add validation for username/password
-
-        # if the title and post entry are not empty, the object will be added
-        #if empty_val(user_name) and empty_val(user_password):
-            # adding the new post (this matches variable created above) as object 
+        # - - - - - ADD NEW USER
 
         # queries db to see if there is an existing user with name username
         # username is coming from class, user_name from variable above
@@ -151,16 +171,17 @@ def add_user():
         existing_user = User.query.filter_by(username=user_name).first()
         # if there are no existing users with same username, creates new user
         if not existing_user: 
-            # creating a new blog post variable from title and entry
+            # creating a new user
             user_new = User(user_name, user_password) 
             # adds new user
             db.session.add(user_new)
             # commits new objects to the database
             db.session.commit()
+            # adds username to this session so they will stay logged in
             session['username'] = user_name
+            flash('New user created', 'success')
             return redirect('/newpost')
         else:
-            # TODO - add better error msg
             flash('Error, there is an existing user with the same username', 'error')
             return render_template('signup.html')
 

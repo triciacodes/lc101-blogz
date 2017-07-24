@@ -62,7 +62,14 @@ input {
     line-height: 1rem;
 }
 
-.error:last-of-type {
+.success {
+    color: green;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    line-height: 1rem;
+}
+
+.error:last-of-type, .success:last-of-type {
     margin-bottom: 1.5rem;
 }
 
