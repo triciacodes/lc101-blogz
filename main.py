@@ -169,6 +169,11 @@ def login_user():
 
     return render_template('login.html')
         
+@app.route('/logout')
+def logout():
+    del session['username']
+    # TODO - better log out msg
+    return "LOGGED OUT"
 
 # only runs when the main.py file run directly
 if __name__ == '__main__':
