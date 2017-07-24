@@ -1,11 +1,11 @@
 body {
-    font-size: 110%;
+    font-size: 100%;
     font-family: 'Work Sans', sans-serif;
     background-color: #fbfcdb;
     padding-top: 2rem;
     height: 100%;
-    margin: 1% 20% 5% 20%;
-    color: #686963;
+    margin: 0% 20% 5% 20%;
+    color: #6E7081;
 }
 
 .container {
@@ -17,17 +17,45 @@ nav {
     text-transform: uppercase;
     text-align: center;
     padding-bottom: 2rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
-a:link {
-    color: #e9defa;
+nav > ul > li {
+    display: inline;
+    padding: 0px 8px 0px 8px;
+    font-size: .9rem;
+}
+
+a:link, a:visited {
+    color: #73BCBA;
+}
+
+a:hover {
+    color: #BFB6CD;
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     line-height: 1rem;
     padding-bottom: 2rem;
     text-align: center;
+    font-weight: 300;
+    color: #BFB6CD;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    font-weight: 300;
+}
+
+.byline {
+    padding-bottom: 1rem;
+    font-size: .9rem;
+    text-transform: uppercase;
+    margin-top: 1.5rem;
 }
 
 /* the entire form */
@@ -57,21 +85,32 @@ input {
     width: 95%;
     margin: auto;
     padding: 0.6rem;
-    border: 1px solid black;
+    border: 1px solid #6E7081;
     font-size: 1rem;
+    margin-bottom: .9rem;
+}
+
+textarea {
+    width: 97%;
 }
 
 /* submit button */
 
 .submit { 
     width: auto;
-    padding: 0.7rem 1rem; 
-    background-color: teal;
+    margin-top: .9rem;
+    padding: 0.7rem 2rem; 
+    background-color: #73BCBA;
     border: 0;
     color: #FFFFFF; 
     text-transform: uppercase;
     font-size: 0.8rem;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.2rem;
+    opacity: 0.8;
+}
+
+.submit:hover {
+    opacity: 1.0;
 }
 
 /* error messages */
@@ -98,6 +137,7 @@ hr {
     border: 0; 
     height: 1px; 
     background-image: linear-gradient(to right, #f0f0f0, #e9defa, #f0f0f0);
+    padding-bottom: .8rem;
 }
 
 hr:last-of-type, .success:last-of-type {
