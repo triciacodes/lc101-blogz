@@ -49,7 +49,7 @@ def require_login():
 
 @app.route('/')
 def index():
-    all_users = User.query.all()
+    all_users = User.query.distinct()
     return render_template('index.html', list_all_users=all_users)
 
 # DISPLAYS IND BLOG POSTS
@@ -62,7 +62,6 @@ def show_blog():
         return render_template('ind_post.html', ind_post=ind_post)
     else:
         if (single_user_id):
-            #single_user = Blog.query.get(single_user_id)
             ind_user_blog_posts = Blog.query.filter_by(owner_id=single_user_id)
             return render_template('singleUser.html', posts=ind_user_blog_posts)
         else:
