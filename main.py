@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -126,6 +126,8 @@ def add_user():
             # adding the new post (this matches variable created above) as object 
 
         # queries db to see if there is an existing user with name username
+        # username is coming from class, user_name from variable above
+        # TODO - clean up this naming
         existing_user = User.query.filter_by(username=user_name).first()
         # if there are no existing users with same username, creates new user
         if not existing_user: 
@@ -135,6 +137,7 @@ def add_user():
             db.session.add(user_new)
             # commits new objects to the database
             db.session.commit()
+            session['username'] = user_name
             return redirect('/newpost')
         else:
             # TODO - add better error msg
@@ -158,7 +161,7 @@ def login_user():
         # "if user" checks to see if user exists
         # "if user.password == password" checks to see if the pw provided matches pw in db
         if user and user.password == password:
-            # TODO - remember that user has logged in
+            session['username'] = username
             return redirect('newpost')
         else:
             # TODO - explain why login failed
