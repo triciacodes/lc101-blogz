@@ -42,11 +42,15 @@ class User(db.Model):
 @app.before_request
 def require_login():
     # allowed routes are the function name, not the directory
-    allowed_routes = ['login_user', 'show_blog', 'add_user']
+    allowed_routes = ['login_user', 'show_blog', 'add_user', 'index']
     # if not in white list, and user not logged in, it will redirect to login page
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
+@app.route('/')
+def index():
+    all_users = User.query.all()
+    return render_template('index.html', list_all_users=all_users)
 
 # DISPLAYS IND BLOG POSTS
 @app.route('/blog')
@@ -85,7 +89,7 @@ def add_entry():
         post_title = request.form['blog_title']
         # assigning variable to blog post from entry form
         post_entry = request.form['blog_post']
-        # assigning variable to blog post from user signup
+        # assigning owner variable to blog post from user signup
         owner = User.query.filter_by(username=session['username']).first()
         # creating a new blog post variable from title and entry
         post_new = Blog(post_title, post_entry, owner)
@@ -183,8 +187,7 @@ def login_user():
 @app.route('/logout')
 def logout():
     del session['username']
-    # TODO - better log out msg
-    return "LOGGED OUT"
+    return redirect('/blog')
 
 # only runs when the main.py file run directly
 if __name__ == '__main__':
