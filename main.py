@@ -117,16 +117,28 @@ def add_user():
         user_password = request.form['password']
         # assigning variable to user password from signup form
         user_password_validate = request.form['password_validate']
-        # creating a new blog post variable from title and entry
-        user_new = User(user_name, user_password)
+        
+
+        # TODO - add validation for username/password
 
         # if the title and post entry are not empty, the object will be added
         #if empty_val(user_name) and empty_val(user_password):
             # adding the new post (this matches variable created above) as object 
-        db.session.add(user_new)
+
+        # queries db to see if there is an existing user with name username
+        existing_user = User.query.filter_by(username=user_name).first()
+        # if there are no existing users with same username, creates new user
+        if not existing_user: 
+            # creating a new blog post variable from title and entry
+            user_new = User(user_name, user_password) 
+            # adds new user
+            db.session.add(user_new)
             # commits new objects to the database
-        db.session.commit()
-        return redirect('/newpost')
+            db.session.commit()
+            return redirect('/newpost')
+        else:
+            # TODO - add better error msg
+            return "Error, existing user"
 
     # DISPLAYS NEW BLOG ENTRY FORM
     else:
@@ -148,6 +160,9 @@ def login_user():
         if user and user.password == password:
             # TODO - remember that user has logged in
             return redirect('newpost')
+        else:
+            # TODO - explain why login failed
+            return '<h2>Error</h2>'
 
     return render_template('login.html')
         
