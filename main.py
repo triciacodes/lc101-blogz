@@ -56,15 +56,21 @@ def index():
 @app.route('/blog')
 def show_blog():
     post_id = request.args.get('id')
+    single_user_id = request.args.get('owner_id')
     if (post_id):
         ind_post = Blog.query.get(post_id)
         return render_template('ind_post.html', ind_post=ind_post)
     else:
-        # queries database for all existing blog entries
-        # post_id = request.args.get('id')
-        all_blog_posts = Blog.query.all()
-        # first of the pair matches to {{}} in for loop in the .html template, second of the pair matches to variable declared above
-        return render_template('blog.html', posts=all_blog_posts)
+        if (single_user_id):
+            #single_user = Blog.query.get(single_user_id)
+            ind_user_blog_posts = Blog.query.filter_by(owner_id=single_user_id)
+            return render_template('singleUser.html', posts=ind_user_blog_posts)
+        else:
+            # queries database for all existing blog entries
+            # post_id = request.args.get('id')
+            all_blog_posts = Blog.query.all()
+            # first of the pair matches to {{}} in for loop in the .html template, second of the pair matches to variable declared above
+            return render_template('blog.html', posts=all_blog_posts)
 
 
 # VALIDATION FOR EMPTY FORM

@@ -2,17 +2,16 @@
 
 {% block content %}
     
-<h1>Build a Blog</h1>
+<h1>Blog Posts by [insert username]</h1>
 
     <div>
-            {% for blog in posts %}
+        {% for blog in posts %}
             <h2><a href="./blog?id={{blog.id}}">{{blog.title}}</a></h2>
             <p>{{blog.post}}</p>
-            <p>by {{blog.user}}</p>
+            <p>by</p>
             <hr>
-            {% endfor %}
+        {% endfor %}
     </div>
     
 
-{% endblock %} 
-
+{% endblock %}
