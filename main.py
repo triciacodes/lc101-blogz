@@ -36,13 +36,6 @@ class User(db.Model):
         self.email = email
         self.password = password
 
-# DISPLAYS ALL BLOG POSTS
-#@app.route('/blog')
-#def index():
-    # queries database for all existing blog entries
-    #all_blog_posts = Blog.query.all()
-    # first of the pair matches to {{}} in for loop in the .html template, second of the pair matches to variable declared above
-    #return render_template('blog.html', posts=all_blog_posts)
 
 # DISPLAYS IND BLOG POSTS
 @app.route('/blog')
@@ -81,8 +74,10 @@ def add_entry():
         post_title = request.form['blog_title']
         # assigning variable to blog post from entry form
         post_entry = request.form['blog_post']
+        # assigning variable to blog post from user signup
+        owner = User.query.filter_by(username=session['username']).first()
         # creating a new blog post variable from title and entry
-        post_new = Blog(post_title, post_entry)
+        post_new = Blog(post_title, post_entry, owner)
 
         # if the title and post entry are not empty, the object will be added
         if empty_val(post_title) and empty_val(post_entry):
@@ -107,6 +102,35 @@ def add_entry():
     # DISPLAYS NEW BLOG ENTRY FORM
     else:
         return render_template('new_post.html')
+
+
+@app.route('/signup', methods=['POST', 'GET'])
+def add_user():
+
+    if request.method == 'POST':
+
+        # THIS CREATES EMPTY STRINGS FOR THE ERROR MESSAGES
+
+        # assigning variable to username from signup form
+        user_name = request.form['username']
+        # assigning variable to user password from signup form
+        user_password = request.form['password']
+        # assigning variable to user password from signup form
+        user_password_validate = request.form['password_validate']
+        # creating a new blog post variable from title and entry
+        user_new = User(user_name, user_password)
+
+        # if the title and post entry are not empty, the object will be added
+        #if empty_val(user_name) and empty_val(user_password):
+            # adding the new post (this matches variable created above) as object 
+        db.session.add(user_new)
+            # commits new objects to the database
+        db.session.commit()
+        return redirect('/newpost')
+
+    # DISPLAYS NEW BLOG ENTRY FORM
+    else:
+        return render_template('signup.html')
         
 
 # only runs when the main.py file run directly
