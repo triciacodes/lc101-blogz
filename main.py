@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -161,7 +161,8 @@ def add_user():
             return redirect('/newpost')
         else:
             # TODO - add better error msg
-            return "Error, existing user"
+            flash('Error, there is an existing user with the same username', 'error')
+            return render_template('signup.html')
 
     # DISPLAYS NEW BLOG ENTRY FORM
     else:

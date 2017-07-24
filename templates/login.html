@@ -16,5 +16,17 @@
         </label>
         <input class="submit" type="submit" value="Submit" />
     </form>
+
+    <div class="flash">
+        
+        {% with messages = get_flashed_messages() %}
+            <ul>
+            {% for message in messages %}
+                <li>{{message}}</li>
+            {% endfor %}
+            </ul>
+        {% endwith %}
+
+    </div>
     
 {% endblock %} 
