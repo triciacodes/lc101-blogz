@@ -108,6 +108,7 @@ textarea {
     width: 97%;
     font-family: 'Work Sans', sans-serif;
     border: 1px solid #6E7081;
+    white-space: pre-wrap;
 }
 
 /* submit button */
