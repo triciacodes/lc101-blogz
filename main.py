@@ -220,7 +220,7 @@ def login_user():
             flash('Password is incorrect', 'error')
             return render_template('login.html')
 
-        # - - - - - LOGGIN IN USER
+        # - - - - - LOGIN IN USER
 
         # "if user" checks to see if user exists
         # "if user.password == password" checks to see if the pw provided matches pw in db
@@ -228,14 +228,13 @@ def login_user():
             # saves username to session
             session['username'] = username
             return redirect('newpost')
-        
-        
 
     return render_template('login.html')
         
 @app.route('/logout')
 def logout():
     del session['username']
+    flash('You are logged out', 'success')
     return redirect('/blog')
 
 # only runs when the main.py file run directly
