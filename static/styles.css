@@ -29,6 +29,10 @@ nav > ul > li {
     font-size: .9rem;
 }
 
+nav > ul > li > a:link {
+    text-decoration: none;
+}
+
 /* links */
 
 a:link, a:visited {
